@@ -70,7 +70,15 @@ export default function Home() {
   ];
 
   return (
-    <main className="h-screen w-screen bg-zinc-950">
+    <main className="relative h-screen w-screen bg-zinc-950 overflow-hidden">
+      <div className="absolute top-0 left-0 w-full p-8 z-10 pointer-events-none">
+        <h1 className="text-3xl font-black text-white tracking-widest uppercase">
+          System<span className="text-indigo-500">Core</span>
+        </h1>
+        <p className="text-zinc-400 font-mono text-sm mt-2">
+          Spatial Navigation Protocol Active
+        </p>
+      </div>
       <Canvas shadows>
         <fog attach="fog" args={['#09090b', 10, 40]} />
         <ambientLight intensity={0.2} />
