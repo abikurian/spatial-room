@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Html, Float, MeshWobbleMaterial } from "@react-three/drei";
+import { OrbitControls, Html, Float, MeshWobbleMaterial, Sparkles } from "@react-three/drei";
 
 function SpinningCube({ position }: { position: [number, number, number] }) {
   const meshRef = useRef<THREE.Mesh>(null!);
@@ -75,6 +75,14 @@ export default function Home() {
         <fog attach="fog" args={['#09090b', 10, 40]} />
         <ambientLight intensity={0.2} />
         <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
+        <Sparkles
+          count={200}
+          scale={15}
+          size={2}
+          speed={0.4}
+          opacity={0.3}
+          color="#4f46e5"
+        />
         <OrbitControls />
         <Floor />
         <BackWall />
