@@ -42,6 +42,7 @@ function Floor() {
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
       <planeGeometry args={[50, 50]} />
       <meshStandardMaterial color="#18181b" />
+      <gridHelper args={[50, 50, '#4f46e5', '#27272a']} position={[0, 0.01, 0]} />
     </mesh>
   );
 }
@@ -65,7 +66,8 @@ export default function Home() {
   return (
     <main className="h-screen w-screen bg-zinc-950">
       <Canvas shadows>
-        <ambientLight intensity={0.5} />
+        <fog attach="fog" args={['#09090b', 10, 40]} />
+        <ambientLight intensity={0.2} />
         <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
         <OrbitControls />
         <Floor />
