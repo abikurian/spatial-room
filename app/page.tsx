@@ -91,7 +91,12 @@ export default function Home() {
           opacity={0.3}
           color="#4f46e5"
         />
-        <OrbitControls />
+        <OrbitControls
+          minDistance={5}
+          maxDistance={25}
+          maxPolarAngle={Math.PI / 2 - 0.05}
+          enablePan={false}
+        />
         <Floor />
         <BackWall />
         {NODE_POSITIONS.map((pos, index) => (
