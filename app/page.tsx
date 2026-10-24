@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, Html } from "@react-three/drei";
 
 function SpinningCube() {
   const meshRef = useRef<THREE.Mesh>(null!);
@@ -27,6 +27,11 @@ function SpinningCube() {
     >
       <boxGeometry args={isClicked ? [2, 2, 2] : [1, 1, 1]} />
       <meshStandardMaterial color={isHovered ? "#ec4899" : "#4f46e5"} />
+      <Html position={[0, 1.5, 0]} center>
+        <div className="bg-zinc-900 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg pointer-events-none">
+          {isClicked ? "Active Node" : "System Core"}
+        </div>
+      </Html>
     </mesh>
   );
 }
