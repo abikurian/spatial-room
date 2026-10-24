@@ -23,6 +23,24 @@ function SpinningCube() {
   );
 }
 
+function Floor() {
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
+      <planeGeometry args={[50, 50]} />
+      <meshStandardMaterial color="#18181b" />
+    </mesh>
+  );
+}
+
+function BackWall() {
+  return (
+    <mesh position={[0, 8, -25]}>
+      <planeGeometry args={[50, 20]} />
+      <meshStandardMaterial color="#18181b" />
+    </mesh>
+  );
+}
+
 export default function Home() {
   return (
     <main className="h-screen w-screen bg-zinc-950">
@@ -30,6 +48,8 @@ export default function Home() {
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 10]} intensity={1} />
         <OrbitControls />
+        <Floor />
+        <BackWall />
         <SpinningCube />
       </Canvas>
     </main>
