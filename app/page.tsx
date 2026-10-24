@@ -5,10 +5,21 @@ import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Html, Float, MeshWobbleMaterial, Sparkles } from "@react-three/drei";
 
-function SpinningCube({ position }: { position: [number, number, number] }) {
+interface SpinningCubeProps {
+  position: [number, number, number];
+  index: number;
+  activeNode: number | null;
+  setActiveNode: (index: number) => void;
+}
+
+function SpinningCube({
+  position,
+  index,
+  activeNode,
+  setActiveNode,
+}: SpinningCubeProps) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [isHovered, setIsHovered] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
 
   useFrame(() => {
     if (meshRef.current) {
@@ -17,25 +28,27 @@ function SpinningCube({ position }: { position: [number, number, number] }) {
     }
   });
 
+  const isSelected = activeNode === index;
+
   return (
     <Float speed={2} rotationIntensity={1.5} floatIntensity={2}>
       <mesh
         ref={meshRef}
         position={position}
         castShadow
-        onClick={() => setIsClicked(!isClicked)}
+        onClick={() => setActiveNode(index)}
         onPointerOver={() => setIsHovered(true)}
         onPointerOut={() => setIsHovered(false)}
       >
-        <boxGeometry args={isClicked ? [2, 2, 2] : [1, 1, 1]} />
+        <boxGeometry args={isSelected ? [2, 2, 2] : [1, 1, 1]} />
         <MeshWobbleMaterial
-          color={isHovered ? "#ec4899" : "#4f46e5"}
+          color={isHovered || isSelected ? "#ec4899" : "#4f46e5"}
           speed={2}
-          factor={isClicked ? 1 : 0}
+          factor={isSelected ? 1 : 0}
         />
         <Html position={[0, 1.5, 0]} center>
           <div className="bg-zinc-900 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg pointer-events-none">
-            {isClicked ? "Active Node" : "System Core"}
+            {isSelected ? "Active Node" : "System Core"}
           </div>
         </Html>
       </mesh>
@@ -63,6 +76,8 @@ function BackWall() {
 }
 
 export default function Home() {
+  const [activeNode, setActiveNode] = useState<number | null>(null);
+
   const NODE_POSITIONS: [number, number, number][] = [
     [-3, 0, 0],
     [0, 0, 0],
@@ -77,6 +92,9 @@ export default function Home() {
         </h1>
         <p className="text-zinc-400 font-mono text-sm mt-2">
           Spatial Navigation Protocol Active
+        </p>
+        <p className="text-pink-500 font-mono mt-4">
+          Selected System: {activeNode !== null ? `Node-0${activeNode}` : 'None'}
         </p>
       </div>
       <Canvas shadows>
@@ -100,7 +118,13 @@ export default function Home() {
         <Floor />
         <BackWall />
         {NODE_POSITIONS.map((pos, index) => (
-          <SpinningCube key={index} position={pos} />
+          <SpinningCube
+            key={index}
+            position={pos}
+            index={index}
+            activeNode={activeNode}
+            setActiveNode={setActiveNode}
+          />
         ))}
       </Canvas>
     </main>
