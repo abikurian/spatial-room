@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Html } from "@react-three/drei";
 
-function SpinningCube() {
+function SpinningCube({ position }: { position: [number, number, number] }) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -20,6 +20,7 @@ function SpinningCube() {
   return (
     <mesh
       ref={meshRef}
+      position={position}
       castShadow
       onClick={() => setIsClicked(!isClicked)}
       onPointerOver={() => setIsHovered(true)}
@@ -55,6 +56,12 @@ function BackWall() {
 }
 
 export default function Home() {
+  const NODE_POSITIONS: [number, number, number][] = [
+    [-3, 0, 0],
+    [0, 0, 0],
+    [3, 0, 0],
+  ];
+
   return (
     <main className="h-screen w-screen bg-zinc-950">
       <Canvas shadows>
@@ -63,7 +70,9 @@ export default function Home() {
         <OrbitControls />
         <Floor />
         <BackWall />
-        <SpinningCube />
+        {NODE_POSITIONS.map((pos, index) => (
+          <SpinningCube key={index} position={pos} />
+        ))}
       </Canvas>
     </main>
   );
