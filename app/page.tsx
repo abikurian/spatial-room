@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Html, Float } from "@react-three/drei";
+import { OrbitControls, Html, Float, MeshWobbleMaterial } from "@react-three/drei";
 
 function SpinningCube({ position }: { position: [number, number, number] }) {
   const meshRef = useRef<THREE.Mesh>(null!);
@@ -28,7 +28,11 @@ function SpinningCube({ position }: { position: [number, number, number] }) {
         onPointerOut={() => setIsHovered(false)}
       >
         <boxGeometry args={isClicked ? [2, 2, 2] : [1, 1, 1]} />
-        <meshStandardMaterial color={isHovered ? "#ec4899" : "#4f46e5"} />
+        <MeshWobbleMaterial
+          color={isHovered ? "#ec4899" : "#4f46e5"}
+          speed={2}
+          factor={isClicked ? 1 : 0}
+        />
         <Html position={[0, 1.5, 0]} center>
           <div className="bg-zinc-900 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg pointer-events-none">
             {isClicked ? "Active Node" : "System Core"}
