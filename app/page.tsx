@@ -1,12 +1,14 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
 function SpinningCube() {
   const meshRef = useRef<THREE.Mesh>(null!);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   useFrame(() => {
     if (meshRef.current) {
@@ -16,9 +18,14 @@ function SpinningCube() {
   });
 
   return (
-    <mesh ref={meshRef}>
-      <boxGeometry />
-      <meshStandardMaterial color="#4f46e5" />
+    <mesh
+      ref={meshRef}
+      onClick={() => setIsClicked(!isClicked)}
+      onPointerOver={() => setIsHovered(true)}
+      onPointerOut={() => setIsHovered(false)}
+    >
+      <boxGeometry args={isClicked ? [2, 2, 2] : [1, 1, 1]} />
+      <meshStandardMaterial color={isHovered ? "#ec4899" : "#4f46e5"} />
     </mesh>
   );
 }
