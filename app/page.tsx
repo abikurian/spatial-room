@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Html, Float, MeshWobbleMaterial, Sparkles } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
 interface SpinningCubeProps {
   position: [number, number, number];
@@ -126,6 +127,13 @@ export default function Home() {
             setActiveNode={setActiveNode}
           />
         ))}
+        <EffectComposer>
+          <Bloom
+            intensity={1.5}
+            luminanceThreshold={0.2}
+            mipmapBlur={true}
+          />
+        </EffectComposer>
       </Canvas>
     </main>
   );
