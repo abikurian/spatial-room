@@ -37,7 +37,10 @@ function SpinningCube({
         ref={meshRef}
         position={position}
         castShadow
-        onClick={() => setActiveNode(index)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setTimeout(() => setActiveNode(index), 0);
+        }}
         onPointerOver={() => setIsHovered(true)}
         onPointerOut={() => setIsHovered(false)}
       >
